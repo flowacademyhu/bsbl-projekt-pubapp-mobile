@@ -4,6 +4,8 @@
 /gradle/
 /build/
 
+/node_modules/
+
 gradlew
 gradlew.bat
 
