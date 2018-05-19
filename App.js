@@ -1,58 +1,23 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import { Navigation } from 'react-native-navigation';
 
-import React, { Component } from 'react';
-import {
- Platform,
- StyleSheet,
- Text,
- View
-} from 'react-native';
+import Login from './src/components/views/Login';
+import Home from './src/components/views/Home';
+import Profile from './src/components/views/Profile';
+import QRReader from './src/components/views/QRReader';
+import Registration from './src/components/views/Registration';
 
-const instructions = Platform.select({
- ios: 'Press Cmd+R to reload,\n' +
-   'Cmd+D or shake for dev menu',
- android: 'Double tap R on your keyboard to reload,\n' +
-   'Shake or press menu button for dev menu',
-});
+Navigation.registerComponent('UdemyApp.Login', () => Login);
+Navigation.registerComponent('UdemyApp.Home', () => Home);
+Navigation.registerComponent('UdemyApp.Profile', () => Profile);
+Navigation.registerComponent('UdemyApp.QRReader', () => QRReader);
+Navigation.registerComponent('UdemyApp.Registration', () => Registration);
 
-type Props = {};
-export default class App extends Component<Props> {
- render() {
-   return (
-     <View style={styles.container}>
-       <Text style={styles.welcome}>
-        Hello, World!
-       </Text>
-       <Text style={styles.instructions}>
-         To get started, edit App.js
-       </Text>
-       <Text style={styles.instructions}>
-         {instructions}
-       </Text>
-     </View>
-   );
- }
-}
-
-const styles = StyleSheet.create({
- container: {
-   flex: 1,
-   justifyContent: 'center',
-   alignItems: 'center',
-   backgroundColor: '#F5FCFF',
- },
- welcome: {
-   fontSize: 20,
-   textAlign: 'center',
-   margin: 10,
- },
- instructions: {
-   textAlign: 'center',
-   color: '#333333',
-   marginBottom: 5,
- },
+export default () => Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'UdemyApp.Login',
+    title: 'Login',
+    navigatorStyle: {
+      navBarHidden: true
+    }
+  }
 });
