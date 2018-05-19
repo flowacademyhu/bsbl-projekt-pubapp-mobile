@@ -24,15 +24,14 @@ project.xcworkspace
 
 # Android/IntelliJ
 #
-/build/
-.idea/
-/.idea/
-/.gradle
+**/build/
+**/.idea/
+**/.gradle/
 local.properties
 *.iml
-/gradle/
-/out/
-/build/
+**/gradle/
+**/out/
+**/build/
 gradlew
 gradlew.bat
 
