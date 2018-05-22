@@ -17,11 +17,7 @@ export default class Login extends Component {
           <Text style={styles.textStyle}>
             If you don't have an account, click here:
           </Text>
-          <Button
-            title='Register'
-            color='#009999'
-            onPress={() => RegistrationScreen()}
-          />
+          <RegistrationScreen />
           <Text style={styles.textStyle}>
             or Log in:
           </Text>
