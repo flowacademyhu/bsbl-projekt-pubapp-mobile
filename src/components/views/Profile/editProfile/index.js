@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   buttons: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     margin: 10
   }
 });

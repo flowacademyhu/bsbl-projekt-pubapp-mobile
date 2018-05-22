@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
 import AchievementTabs from './AchievementTabs';
+import QRReader from '../QRReader';
 
 export default class Home extends Component {
   render () {
@@ -13,6 +14,7 @@ export default class Home extends Component {
               <Text style={styles.header}>
               ACTIVE ACHIEVEMENTS
               </Text>
+              <QRReader />
             </View>
             <View title='COMPLETED ACHIEVEMENTS' style={styles.content}>
               <Text style={styles.header}>
