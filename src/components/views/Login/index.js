@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
 import LoginForm from './LoginForm';
 
-import RegistrationScreen from '../Registration';
+import RegistrationScreen from './Registration';
 import LoadTabs from '../Tabs';
 
 export default class Login extends Component {

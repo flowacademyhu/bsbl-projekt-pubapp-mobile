@@ -4,7 +4,7 @@ import { RadioGroup, RadioButton } from 'react-native-flexi-radio-button';
 import DatePicker from 'react-native-datepicker';
 
 export default class RegistrationForm extends Component {
-  render() {
+  render () {
     return (
       <ScrollView>
         <View style={styles.wrapper}>
