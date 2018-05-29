@@ -5,8 +5,11 @@ import { StyleSheet, Text, View, Button, Modal, ScrollView } from 'react-native'
 import RegistrationForm from './RegistrationForm'
 
 export default class RegistrationScreen extends Component {
-  state = {
-    modal: false
+  constructor (props) {
+    super(props);
+    this.state = {
+      modal: false
+    }
   }
 
   handleModal = () => {
@@ -33,11 +36,6 @@ export default class RegistrationScreen extends Component {
               <RegistrationForm />
             </View>
             <View style={styles.buttons}>
-              <Button
-                title='Submit'
-                color='#009999'
-              />
-              <Text/>
               <Button
                 title='Cancel'
                 onPress={this.handleModal}

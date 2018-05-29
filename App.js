@@ -5,14 +5,17 @@ import Home from './src/components/views/Home';
 import Profile from './src/components/views/Profile';
 import QRReader from './src/components/views/QRReader';
 
-Navigation.registerComponent('UdemyApp.Login', () => Login);
-Navigation.registerComponent('UdemyApp.Home', () => Home);
-Navigation.registerComponent('UdemyApp.Profile', () => Profile);
-Navigation.registerComponent('UdemyApp.QRReader', () => QRReader);
+import SideDrawer from './src/components/views/Tabs/SideDrawer';
+
+Navigation.registerComponent('PubApp.Login', () => Login);
+Navigation.registerComponent('PubApp.Home', () => Home);
+Navigation.registerComponent('PubApp.Profile', () => Profile);
+Navigation.registerComponent('PubApp.QRReader', () => QRReader);
+Navigation.registerComponent('PubApp.SideDrawer', () => SideDrawer)
 
 export default () => Navigation.startSingleScreenApp({
   screen: {
-    screen: 'UdemyApp.Login',
+    screen: 'PubApp.Login',
     title: 'Login',
     navigatorStyle: {
       navBarHidden: true

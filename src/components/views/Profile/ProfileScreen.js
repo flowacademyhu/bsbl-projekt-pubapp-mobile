@@ -4,27 +4,32 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import EditProfileScreen from './editProfile'
 
 export default class ProfileScreen extends Component {
-
-  state = {
-    firstName: 'Jane',
-    lastName: 'Shepard',
-    nickname: 'Commander',
-    xp: 3468436844,
-    email: 'shepard@normandy.com',
-    gender: 1,
-    dateOfBirth: '2154-04-11'
+  constructor (props) {
+    super(props);
+    /* These field values should be queried from the database */
+    this.state = {
+      firstName: 'Jane',
+      lastName: 'Shepard',
+      nickname: 'Commander',
+      email: 'shepard@normandy.com',
+      password: undefined,
+      confirmPassword: undefined,
+      gender: 0,
+      dob: '1990-04-11',
+      xp: 3468436844
+    };
   }
 
-  render() {
+  render () {
     return (
       <ScrollView>
         <View style={styles.wrapper}>
           <View style={styles.textWrapper}>
-          <Text style={styles.names}>{this.state.firstName} {this.state.lastName}</Text>
-          <Text stlye={styles.nickname}>{this.state.nickname}</Text>
-          <Text>Current XP: {this.state.xp}</Text>
-          <Text>E-mail Address: {this.state.email}</Text>
-          <Text>Date of Birth: {this.state.dateOfBirth}</Text>
+            <Text style={styles.names}>{this.state.firstName} {this.state.lastName}</Text>
+            <Text stlye={styles.nickname}>{this.state.nickname}</Text>
+            <Text>Current XP: {this.state.xp}</Text>
+            <Text>E-mail Address: {this.state.email}</Text>
+            <Text>Date of Birth: {this.state.dateOfBirth}</Text>
           </View>
         </View>
         <View>
@@ -44,7 +49,9 @@ export default class ProfileScreen extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: '100%'
+    flex: 1,
+    width: '100%',
+    height: '100%'
   },
   textWrapper: {
     flex: 1,
@@ -63,4 +70,4 @@ const styles = StyleSheet.create({
     fontFamily: 'RobotoCondensed-Regular',
     textAlign: 'left',
   }
-})
+});

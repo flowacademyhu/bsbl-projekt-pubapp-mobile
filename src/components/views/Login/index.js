@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
 import LoginForm from './LoginForm';
-
 import RegistrationScreen from './Registration';
-import LoadTabs from '../Tabs';
 
 export default class Login extends Component {
   render () {
@@ -24,11 +22,6 @@ export default class Login extends Component {
         </View>
         <View style={styles.login}>
           <LoginForm />
-          <Button
-            title='Log in'
-            color='#009999'
-            onPress={() => LoadTabs()}
-          />
         </View>
       </ScrollView>
     );

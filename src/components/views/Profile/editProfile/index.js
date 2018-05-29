@@ -5,21 +5,20 @@ import { StyleSheet, Text, View, Button, Modal, ScrollView } from 'react-native'
 import EditPofileForm from './EditProfileForm'
 
 export default class EditProfileScreen extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  state = {
-    modal: false
+  constructor (props) {
+    super(props);
+    this.state = {
+      modal: false
+    };
   }
 
   handleModal = () => {
     this.setState({
       modal: !this.state.modal ? true : false
-    })
+    });
   }
 
-  render() {
+  render () {
     return (
       <ScrollView style={styles.wrapper}>
         <View>
@@ -35,21 +34,10 @@ export default class EditProfileScreen extends Component {
 
           >
             <View>
-              <EditPofileForm 
-              firstName={this.props.firstName}
-              lastName={this.props.lastName}
-              nickname={this.props.nickname}
-              email={this.props.email}
-              gender={this.props.gender}
-              dateOfBirth={this.props.dateOfBirth}
+              <EditPofileForm {...this.props}
               />
             </View>
             <View style={styles.buttons}>
-              <Button
-                title='Submit'
-                color='#009999'
-              />
-              <Text />
               <Button
                 title='Cancel'
                 onPress={this.handleModal}
@@ -59,7 +47,7 @@ export default class EditProfileScreen extends Component {
           </Modal>
         </View>
       </ScrollView>
-    )
+    );
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import axios from 'axios';
-import TodoDetails from './TodoDetail';
+import TodoDetail from './TodoDetail';
 
 class QRReader extends Component {
 
@@ -9,7 +9,7 @@ class QRReader extends Component {
     todos: []
   }
 
-  componentWillMount() {
+  componentDidMount() {
     axios.get('https://jsonplaceholder.typicode.com/todos')
       .then(response => this.setState({ todos: response.data }))
       .catch(error => {
@@ -19,7 +19,7 @@ class QRReader extends Component {
 
   renderTodos() {
     return this.state.todos.map(todo =>
-      <TodoDetails key={todo.id} todo={todo} />);
+      <TodoDetail key={todo.id} todo={todo} />);
   }
 
   render() {

@@ -1,10 +1,42 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import axios from 'axios';
 
+import AchievementDetail from './Achievements/AchievementDetail';
 import AchievementTabs from './AchievementTabs';
-import QRReader from '../QRReader';
 
 export default class Home extends Component {
+  constructor (props) {
+    super(props);
+    this.props.navigator.setOnNavigatorEvent(this.navigatorEvent);
+  }
+
+  state = {
+    achievements: []
+  }
+
+  componentDidMount() {
+    axios.get('apiURL')
+      .then(response => this.setState({ achievements: response.data }))
+      .catch(error => {
+        console.log(error)
+      });
+  }
+
+  renderAchievements() {
+    return this.state.achievements.map(achievement =>
+      <AchievementDetail key={achievement.id} achievement={achievement} />);
+  }
+
+navigatorEvent = (event) => {
+  if (event.type === 'NavBarButtonPress' && event.id === 'MenuButton') {
+    this.props.navigator.toggleDrawer({
+      side: 'right',
+      animated: true
+    });
+  }
+}
+
   render () {
     return (
       <ScrollView>
@@ -14,7 +46,9 @@ export default class Home extends Component {
               <Text style={styles.header}>
               ACTIVE ACHIEVEMENTS
               </Text>
-              <QRReader />
+              <ScrollView>
+                {this.renderAchievements()}
+              </ScrollView>
             </View>
             <View title='COMPLETED ACHIEVEMENTS' style={styles.content}>
               <Text style={styles.header}>
