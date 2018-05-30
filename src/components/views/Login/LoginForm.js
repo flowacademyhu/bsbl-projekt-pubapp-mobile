@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
 import axios from 'axios';
 
@@ -9,11 +9,11 @@ export default class LoginForm extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: undefined,
+      password: undefined,
       statusCode: undefined,
       token: undefined,
-      loginWarning: ''
+      loginWarning: undefined
     };
   }
 
@@ -26,7 +26,15 @@ export default class LoginForm extends Component {
   }
 
   async onButtonTouch () {
-    await axios.post('http://192.168.5.182:8080/sessions', { email: this.state.email, password: this.state.password })
+    await axios.post('http://192.168.5.182:8080/sessions',
+      { email: this.state.email, password: this.state.password },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
+      })
       .then(response => this.setState({ token: response.data, statusCode: response.status }))
       .catch(error => console.log(error));
 
@@ -79,9 +87,7 @@ export default class LoginForm extends Component {
 
 const styles = StyleSheet.create({
   loginFormWrapper: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 30
+    marginHorizontal: 20
   },
   labels: {
     fontSize: 25,

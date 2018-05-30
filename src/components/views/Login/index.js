@@ -1,10 +1,23 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
 import LoginForm from './LoginForm';
-import RegistrationScreen from './Registration';
 
 export default class Login extends Component {
+  
+  openRegistrationPage = () => {
+    Navigation.startSingleScreenApp({
+      screen: {
+        screen: 'PubApp.Registration',
+        title: 'Registration',
+        navigatorStyle: {
+          navBarHidden: true
+        }
+      }
+    });
+  }
+  
   render () {
     return (
       <ScrollView style={{ backgroundColor: '#ffffff' }}>
@@ -15,7 +28,11 @@ export default class Login extends Component {
           <Text style={styles.textStyle}>
             If you don't have an account, click here:
           </Text>
-          <RegistrationScreen />
+          <Button 
+          title='Sign Up'
+          color='#009999'
+          onPress={this.openRegistrationPage.bind(this)}
+          />
           <Text style={styles.textStyle}>
             or Log in:
           </Text>

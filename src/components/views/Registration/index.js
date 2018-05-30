@@ -1,9 +1,25 @@
 import React, { Component } from 'react';
+import { Navigation } from 'react-native-navigation';
 import { StyleSheet, Text, View, TextInput, ScrollView, Button } from 'react-native';
 import { RadioGroup, RadioButton } from 'react-native-flexi-radio-button';
 import DatePicker from 'react-native-datepicker';
 
+import axios from 'axios';
+
 export default class RegistrationForm extends Component {
+  
+  openLoginPage = () => {
+    Navigation.startSingleScreenApp({
+      screen: {
+        screen: 'PubApp.Login',
+        title: 'Login',
+        navigatorStyle: {
+          navBarHidden: true
+        }
+      }
+    });
+  }
+
   constructor (props) {
     super(props);
     this.state = {
@@ -44,9 +60,37 @@ export default class RegistrationForm extends Component {
 
   onSelect (index, value) {
     if (value === 'male') {
-      this.setState({ gender: 1 });
+      this.setState({ gender: true });
     } else {
-      this.setState({ gender: 0 });
+      this.setState({ gender: false });
+    }
+  }
+
+  async onButtonTouch () {
+    await axios.post('http://192.168.5.182:8080/users',
+      {
+        password: this.state.password,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        nickName: this.state.nickname,
+        email: this.state.email,
+        dob: this.state.dob,
+        gender: this.state.gender
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
+      })
+      .then(response => this.setState({ statusCode: response.status }))
+      .catch(error => console.log(error));
+
+    if (this.state.statusCode === 200) {
+      this.openLoginPage();
+    } else {
+      alert('Ooops, something went wrong.')
     }
   }
 
@@ -60,40 +104,40 @@ export default class RegistrationForm extends Component {
             style={styles.input}
             value={this.state.firstName}
             onChangeText={this.onChangeFirstName.bind(this)} />
-          
+
           <Text style={styles.labels}>Last Name:</Text>
           <TextInput
             style={styles.input}
             value={this.state.lastName}
             onChangeText={this.onChangeLastName.bind(this)} />
-          
+
           <Text style={styles.labels}>Nickname:</Text>
           <TextInput
             style={styles.input}
             value={this.state.nickname}
             onChangeText={this.onChangeNickname.bind(this)} />
-          
+
           <Text style={styles.labels}>E-mail Address:</Text>
           <TextInput
             style={styles.input}
             keyboardType='email-address'
             value={this.state.email}
             onChangeText={this.onChangeEmail.bind(this)} />
-          
+
           <Text style={styles.labels}>Password:</Text>
           <TextInput
             style={styles.input}
             secureTextEntry={true}
             value={this.state.password}
             onChangeText={this.onChangePassword.bind(this)} />
-          
+
           <Text style={styles.labels}>Confirm Password:</Text>
           <TextInput
             style={styles.input}
             secureTextEntry={true}
             value={this.state.confirmPassword}
             onChangeText={this.onChangeConfirmPassword.bind(this)} />
-          
+
           <Text style={styles.labels}>Gender:</Text>
           <RadioGroup
             color='#009999'
@@ -106,7 +150,7 @@ export default class RegistrationForm extends Component {
               <Text>Male</Text>
             </RadioButton>
           </RadioGroup>
-          
+
           <Text style={styles.labels}>Date of Birth:</Text>
           <DatePicker
             style={styles.datepicker}
@@ -131,14 +175,19 @@ export default class RegistrationForm extends Component {
             }}
             onDateChange={(date) => this.setState({ dob: date })}
           />
-        </View>
-        <View style={styles.buttons}>
-          <Text />
-          <Button
-            title='Submit'
-            onPress={this.handleModal}
-            color='#009999'
-          />
+          <View style={styles.buttons}>
+            <Button
+              title='Submit'
+              color='#009999'
+              onPress={this.onButtonTouch.bind(this)}
+            />
+            <Text />
+            <Button
+              title='Cancel'
+              color='#009999'
+              onPress={this.openLoginPage.bind(this)}
+            />
+          </View>
         </View>
       </ScrollView>
     );
@@ -159,16 +208,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 15
   },
   input: {
-    fontSize: 15,
+    fontSize: 20,
     textAlign: 'left',
     marginHorizontal: 15,
     marginBottom: 5
-  },
-  buttons: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    margin: 10
   },
   radios: {
     flex: 1,
@@ -180,6 +223,13 @@ const styles = StyleSheet.create({
   datepicker: {
     width: '75%',
     marginTop: 10,
-    marginHorizontal: 40
+    marginHorizontal: 40,
+    marginBottom: 10
+  },
+  buttons: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    margin: 10
   }
 });
