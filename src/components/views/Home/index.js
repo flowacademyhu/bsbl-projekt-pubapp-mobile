@@ -14,14 +14,15 @@ export default class Home extends Component {
   state = {
     achievements: []
   }
-
-  componentDidMount() {
+  /*
+  componentWillMount() {
     axios.get('apiURL')
       .then(response => this.setState({ achievements: response.data }))
       .catch(error => {
         console.log(error)
       });
   }
+  */
 
   renderAchievements() {
     return this.state.achievements.map(achievement =>

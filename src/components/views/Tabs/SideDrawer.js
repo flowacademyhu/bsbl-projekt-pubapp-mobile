@@ -7,7 +7,8 @@ export default class SideDrawer extends Component {
       <View>
         <Button
           title='Log out'
-          color='#009999' />
+          color='#009999'
+          onPress={() => alert('Signed out')} />
       </View>
     );
   }

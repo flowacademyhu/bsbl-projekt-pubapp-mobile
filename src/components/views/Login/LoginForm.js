@@ -25,21 +25,16 @@ export default class LoginForm extends Component {
     this.setState({ password: value });
   }
 
-  onButtonTouch () {
-    axios.post('url', { email: this.state.email, password: this.state.password }, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-      }
-    })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  async onButtonTouch () {
+    await axios.post('http://192.168.5.182:8080/sessions', { email: this.state.email, password: this.state.password })
+      .then(response => this.setState({ token: response.data, statusCode: response.status }))
+      .catch(error => console.log(error));
 
-    LoadTabs();
+    if (this.state.statusCode === 200) {
+      LoadTabs();
+    } else {
+      this.setState({ loginWarning: 'Unsuccessful login attempt' });
+    }
   }
 
   render () {
@@ -50,7 +45,6 @@ export default class LoginForm extends Component {
           <Text style={styles.labels}>
             E-mail address:
           </Text>
-          <Text>{this.state.email}</Text>
           <TextInput
             style={styles.input}
             multiline={false}
@@ -64,7 +58,6 @@ export default class LoginForm extends Component {
           <Text style={styles.labels}>
             Password:
           </Text>
-          <Text>{this.state.password}</Text>
           <TextInput
             style={styles.input}
             multiline={false}

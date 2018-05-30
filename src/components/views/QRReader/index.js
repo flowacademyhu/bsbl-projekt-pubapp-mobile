@@ -9,7 +9,7 @@ class QRReader extends Component {
     todos: []
   }
 
-  componentDidMount() {
+  componentWillMount() {
     axios.get('https://jsonplaceholder.typicode.com/todos')
       .then(response => this.setState({ todos: response.data }))
       .catch(error => {
