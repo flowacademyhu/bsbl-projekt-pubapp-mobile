@@ -31,8 +31,8 @@ export default class ProfileScreen extends Component {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*'
     };
-
-    await axios.get('http://192.168.5.182:8080/users/' + userID, { headers: config })
+    // 192.168.1.3, 192.168.0.102, 192.168.5.182
+    await axios.get('http://192.168.0.102:8080/users/' + userID, { headers: config })
       .then(response => {
         this.setState({
           firstName: response.data.firstName,

@@ -16,8 +16,8 @@ export default class SideDrawer extends Component {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*'
     };
-
-    await axios.delete('http://192.168.5.182:8080/sessions/' + userID, { headers: config })
+    // 192.168.1.3, 192.168.0.102, 192.168.5.182
+    await axios.delete('http://192.168.0.102:8080/sessions/' + userID, { headers: config })
       .then(response => {
         if (response.status === 200) {
           this.openLoginScreen();

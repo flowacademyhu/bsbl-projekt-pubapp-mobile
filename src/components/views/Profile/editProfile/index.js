@@ -36,8 +36,8 @@ export default class EditProfileForm extends Component {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*'
     };
-
-    await axios.get('http://192.168.5.182:8080/users/' + userID, { headers: config })
+    // 192.168.1.3,192.168.0.102, 192.168.5.182
+    await axios.get('http://192.168.0.102:8080/users/' + userID, { headers: config })
       .then(response => {
         this.setState({
           firstName: response.data.firstName,
@@ -61,8 +61,8 @@ export default class EditProfileForm extends Component {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*'
     };
-
-    await axios.put('http://192.168.5.182:8080/users/' + userID,
+    // 192.168.1.3, 192.168.0.102, 192.168.5.182
+    await axios.put('http://192.168.0.102:8080/users/' + userID,
       {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
@@ -74,7 +74,10 @@ export default class EditProfileForm extends Component {
         newPassword: this.state.newPassword
       },
       { headers: config })
-      .then(response => console.log(response.data))
+      .then(response => {
+        console.log(response.data);
+        LoadTabs(1);
+      })
       .catch(error => console.log(error.response));
   }
 
