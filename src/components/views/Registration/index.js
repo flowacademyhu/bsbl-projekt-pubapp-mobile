@@ -75,7 +75,8 @@ export default class RegistrationForm extends Component {
         nickName: this.state.nickname,
         email: this.state.email,
         dob: this.state.dob,
-        gender: this.state.gender
+        gender: this.state.gender,
+        role: 'USER'
       },
       {
         headers: {

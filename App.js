@@ -4,6 +4,7 @@ import Login from './src/components/views/Login';
 import Registration from './src/components/views/Registration';
 import Home from './src/components/views/Home';
 import Profile from './src/components/views/Profile';
+import EditProfile from './src/components/views/Profile/editProfile';
 import QRReader from './src/components/views/QRReader';
 
 import SideDrawer from './src/components/views/Tabs/SideDrawer';
@@ -12,6 +13,7 @@ Navigation.registerComponent('PubApp.Login', () => Login);
 Navigation.registerComponent('PubApp.Registration', () => Registration);
 Navigation.registerComponent('PubApp.Home', () => Home);
 Navigation.registerComponent('PubApp.Profile', () => Profile);
+Navigation.registerComponent('PubApp.EditProfile', () => EditProfile);
 Navigation.registerComponent('PubApp.QRReader', () => QRReader);
 Navigation.registerComponent('PubApp.SideDrawer', () => SideDrawer);
 

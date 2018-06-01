@@ -10,7 +10,7 @@ const navStyle = {
   navBarBackgroundColor: '#009999'
 };
 
-const LoadTabs = () => {
+const LoadTabs = (initialTab) => {
   Navigation.startTabBasedApp({
     tabs: [
       {
@@ -53,6 +53,12 @@ const LoadTabs = () => {
         navigatorStyle: navStyle
       }
     ],
+    appStyle: {
+      initialTabIndex: initialTab,
+      tabBarButtonColor: '#ffffff',
+      tabBarBackgroundColor: '#009999',
+      tabBarSelectedButtonColor: '#33ffff'
+    },
     drawer: {
       right: {
         screen: 'PubApp.SideDrawer',

@@ -1,26 +1,63 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { StyleSheet, Text, View, ScrollView, Button, AsyncStorage } from 'react-native';
 
-import EditProfileScreen from './editProfile'
+import axios from 'axios';
 
 export default class ProfileScreen extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     /* These field values should be queried from the database */
     this.state = {
-      firstName: 'Jane',
-      lastName: 'Shepard',
-      nickname: 'Commander',
-      email: 'shepard@normandy.com',
+      firstName: undefined,
+      lastName: undefined,
+      nickname: undefined,
+      email: undefined,
       password: undefined,
       confirmPassword: undefined,
-      gender: 0,
-      dob: '1990-04-11',
-      xp: 3468436844
+      dob: undefined,
+      xp: undefined
     };
   }
 
-  render () {
+  async componentWillMount() {
+
+    const userID = await AsyncStorage.getItem('@userID:key');
+    const token = await AsyncStorage.getItem('@token:key');
+
+    let config = {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    };
+
+    await axios.get('http://192.168.5.182:8080/users/' + userID, { headers: config })
+      .then(response => {
+        this.setState({
+          firstName: response.data.firstName,
+          lastName: response.data.lastName,
+          nickname: response.data.nickName,
+          email: response.data.email,
+          dob: response.data.dob
+        });
+      })
+      .catch(error => console.log(error.response));
+  }
+
+  openEditProfilePage = () => {
+    Navigation.startSingleScreenApp({
+      screen: {
+        screen: 'PubApp.EditProfile',
+        title: 'Edit Profile',
+        navigatorStyle: {
+          navBarHidden: true
+        }
+      }
+    });
+  }
+
+  render() {
     return (
       <ScrollView>
         <View style={styles.wrapper}>
@@ -29,18 +66,14 @@ export default class ProfileScreen extends Component {
             <Text stlye={styles.nickname}>{this.state.nickname}</Text>
             <Text>Current XP: {this.state.xp}</Text>
             <Text>E-mail Address: {this.state.email}</Text>
-            <Text>Date of Birth: {this.state.dateOfBirth}</Text>
+            <Text>Date of Birth: {this.state.dob}</Text>
           </View>
         </View>
-        <View>
-          <EditProfileScreen
-            firstName={this.state.firstName}
-            lastName={this.state.lastName}
-            nickname={this.state.nickname}
-            email={this.state.email}
-            gender={this.state.gender}
-            dateOfBirth={this.state.dateOfBirth}
-          />
+        <View style={styles.buttons}>
+          <Button
+            title='Edit Profile'
+            color='#009999'
+            onPress={this.openEditProfilePage.bind(this)} />
         </View>
       </ScrollView>
     );
@@ -50,7 +83,7 @@ export default class ProfileScreen extends Component {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    width: '100%',
+    width: '90%',
     height: '100%'
   },
   textWrapper: {
@@ -63,11 +96,17 @@ const styles = StyleSheet.create({
   names: {
     fontSize: 50,
     fontFamily: 'RobotoCondensed-Regular',
-    textAlign: 'left',
+    textAlign: 'left'
   },
   nickname: {
     fontSize: 40,
     fontFamily: 'RobotoCondensed-Regular',
-    textAlign: 'left',
+    textAlign: 'left'
+  },
+  buttons: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    margin: 10
   }
 });

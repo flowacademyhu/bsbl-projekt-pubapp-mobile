@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, AsyncStorage } from 'react-native';
 
 import axios from 'axios';
 
@@ -12,7 +12,6 @@ export default class LoginForm extends Component {
       email: undefined,
       password: undefined,
       statusCode: undefined,
-      token: undefined,
       loginWarning: undefined
     };
   }
@@ -35,11 +34,16 @@ export default class LoginForm extends Component {
           'Access-Control-Allow-Origin': '*'
         }
       })
-      .then(response => this.setState({ token: response.data, statusCode: response.status }))
-      .catch(error => console.log(error));
+      .then(async (response) => {
+        this.setState({ statusCode: response.status });
+        let responseData = response.data;
+        let responseArray = responseData.split('.');
+        await AsyncStorage.multiSet([['@token:key', responseArray[0]], ['@userID:key', responseArray[1]]]).catch(error => console.log(error));
+      })
+      .catch(error => console.log(error.response));
 
     if (this.state.statusCode === 200) {
-      LoadTabs();
+      LoadTabs(0);
     } else {
       this.setState({ loginWarning: 'Unsuccessful login attempt' });
     }
