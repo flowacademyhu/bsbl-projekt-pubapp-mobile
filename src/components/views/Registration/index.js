@@ -67,7 +67,7 @@ export default class RegistrationForm extends Component {
   }
   // 192.168.1.3, 192.168.0.102, 192.168.5.182
   async onButtonTouch () {
-    await axios.post('http://192.168.0.102:8080/users',
+    await axios.post('http://192.168.1.3:8080/users',
       {
         password: this.state.password,
         firstName: this.state.firstName,
