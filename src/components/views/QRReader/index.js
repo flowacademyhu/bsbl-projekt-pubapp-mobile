@@ -10,7 +10,7 @@ export default class QRHome extends Component {
   }
 
   navigatorEvent = (event) => {
-    if (event.type === 'NavBarButtonPress' && event.id === 'MenuButton') {
+    if (event.type === 'NavBarButtonPress' && event.id === 'LogoutButton') {
       this.props.navigator.toggleDrawer({
         side: 'right',
         animated: true

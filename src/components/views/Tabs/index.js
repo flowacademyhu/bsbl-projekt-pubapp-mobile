@@ -1,7 +1,6 @@
 import { Navigation } from 'react-native-navigation';
 
-import DummyIcon from '../../../assets/icons/icon.png';
-import MenuIcon from '../../../assets/icons/menu.png';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const navStyle = {
   navBarTextFontSize: 20,
@@ -11,69 +10,76 @@ const navStyle = {
 };
 
 const LoadTabs = (initialTab) => {
-  Navigation.startTabBasedApp({
-    tabs: [
-      {
-        screen: 'PubApp.Home',
-        label: 'Home',
-        title: 'Home',
-        icon: DummyIcon,
-        navigatorStyle: navStyle,
-        navigatorButtons: {
-          rightButtons: [
-            {
-              title: 'Menu',
-              id: 'MenuButton',
-              icon: MenuIcon
-            }
-          ]
+  Promise.all([
+    Icon.getImageSource('star', 30, 'white'),
+    Icon.getImageSource('account-circle', 30, 'white'),
+    Icon.getImageSource('camera', 30, 'white'),
+    Icon.getImageSource('power-settings-new', 35, 'white')
+  ]).then(sources => {
+    Navigation.startTabBasedApp({
+      tabs: [
+        {
+          screen: 'PubApp.Home',
+          label: 'Home',
+          title: 'Home',
+          icon: sources[0],
+          navigatorStyle: navStyle,
+          navigatorButtons: {
+            rightButtons: [
+              {
+                title: 'Log out',
+                id: 'LogoutButton',
+                icon: sources[3]
+              }
+            ]
+          }
+        },
+        {
+          screen: 'PubApp.Profile',
+          label: 'Profile',
+          title: 'Profile',
+          icon: sources[1],
+          navigatorStyle: navStyle,
+          navigatorButtons: {
+            rightButtons: [
+              {
+                title: 'Log out',
+                id: 'LogoutButton',
+                icon: sources[3]
+              }
+            ]
+          }
+        },
+        {
+          screen: 'PubApp.QRReader',
+          label: 'QR Reader',
+          title: 'QR Reader',
+          icon: sources[2],
+          navigatorStyle: navStyle,
+          navigatorButtons: {
+            rightButtons: [
+              {
+                title: 'Log out',
+                id: 'LogoutButton',
+                icon: sources[3]
+              }
+            ]
+          }
         }
+      ],
+      appStyle: {
+        initialTabIndex: initialTab,
+        tabBarButtonColor: '#ffffff',
+        tabBarBackgroundColor: '#009999',
+        tabBarSelectedButtonColor: '#33ffff'
       },
-      {
-        screen: 'PubApp.Profile',
-        label: 'Profile',
-        title: 'Profile',
-        icon: DummyIcon,
-        navigatorStyle: navStyle,
-        navigatorButtons: {
-          rightButtons: [
-            {
-              title: 'Menu',
-              id: 'MenuButton',
-              icon: MenuIcon
-            }
-          ]
-        }
-      },
-      {
-        screen: 'PubApp.QRReader',
-        label: 'QR Reader',
-        title: 'QR Reader',
-        icon: DummyIcon,
-        navigatorStyle: navStyle,
-        navigatorButtons: {
-          rightButtons: [
-            {
-              title: 'Menu',
-              id: 'MenuButton',
-              icon: MenuIcon
-            }
-          ]
+      drawer: {
+        right: {
+          screen: 'PubApp.SideDrawer',
+          fixedWidth: 500
         }
       }
-    ],
-    appStyle: {
-      initialTabIndex: initialTab,
-      tabBarButtonColor: '#ffffff',
-      tabBarBackgroundColor: '#009999',
-      tabBarSelectedButtonColor: '#33ffff'
-    },
-    drawer: {
-      right: {
-        screen: 'PubApp.SideDrawer',
-        fixedWidth: 500
-      }
-    }
+    });
   });
 };
 
