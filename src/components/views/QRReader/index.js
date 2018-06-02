@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import QRReader from './QRReaderComponent/QRReader';
 import axios from 'axios';
-import TodoDetail from './TodoDetail';
 
-class QRReader extends Component {
+export default class QRHome extends Component {
+  constructor (props) {
+    super(props);
+    this.props.navigator.setOnNavigatorEvent(this.navigatorEvent);
+  }
 
-  render() {
+  navigatorEvent = (event) => {
+    if (event.type === 'NavBarButtonPress' && event.id === 'MenuButton') {
+      this.props.navigator.toggleDrawer({
+        side: 'right',
+        animated: true
+      });
+    }
+  }
+
+  render () {
     return (
-      
+      <QRReader />
     );
   }
-}
 
-export default QRReader;
+}

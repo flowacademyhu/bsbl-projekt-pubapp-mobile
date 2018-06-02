@@ -47,10 +47,19 @@ const LoadTabs = (initialTab) => {
       },
       {
         screen: 'PubApp.QRReader',
-        label: 'QR-Reader',
-        title: 'QR-Reader',
+        label: 'QR Reader',
+        title: 'QR Reader',
         icon: DummyIcon,
-        navigatorStyle: navStyle
+        navigatorStyle: navStyle,
+        navigatorButtons: {
+          rightButtons: [
+            {
+              title: 'Menu',
+              id: 'MenuButton',
+              icon: MenuIcon
+            }
+          ]
+        }
       }
     ],
     appStyle: {
