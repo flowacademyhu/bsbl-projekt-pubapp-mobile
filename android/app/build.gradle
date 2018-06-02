@@ -150,6 +150,7 @@ dependencies {
         }
     }
     implementation group: 'com.android.support', name: 'support-v4', version: '27.1.0'
+    implementation 'com.android.support:design:27.1.0'
 
 }
 
