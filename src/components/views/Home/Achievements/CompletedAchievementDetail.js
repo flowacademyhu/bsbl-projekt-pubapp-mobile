@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const AchievementDetail = ({ achievement }) => {
+const CompletedAchievementDetail = ({ achievement }) => {
   const {
     id,
     name,
     description,
-    xp_value,
+    xpValue,
     expiration
   } = achievement;
 
@@ -15,10 +15,8 @@ const AchievementDetail = ({ achievement }) => {
       <Text>{id}</Text>
       <Text>{name}</Text>
       <Text>{description}</Text>
-      <Text>{xp_value}</Text>
+      <Text>{xpValue}</Text>
       <Text>{expiration}</Text>
     </View>
   );
 };
-
-export default AchievementDetail;
