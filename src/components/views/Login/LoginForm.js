@@ -3,31 +3,72 @@ import { StyleSheet, Text, View, Button, TextInput, AsyncStorage } from 'react-n
 
 import axios from 'axios';
 
+import Input from '../../utils/inputs';
+import ValidationRules from '../../utils/validationRules';
+
 import LoadTabs from '../Tabs';
 
 export default class LoginForm extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      email: undefined,
-      password: undefined,
-      statusCode: undefined,
-      loginWarning: undefined
-    };
+  state = {
+    hasErrors: false,
+    form: {
+      email: {
+        value: '',
+        valid: false,
+        type: 'textinput',
+        rules: {
+          isRequired: true,
+          isEmail: true
+        }
+      },
+      password: {
+        value: '',
+        valid: false,
+        type: 'textinput',
+        rules: {
+          isRequired: true,
+          minLength: 5
+        }
+      }
+    },
+    loginWarning: undefined
+  };
+
+  updateInput = (name, value) => {
+    this.setState({ hasErrors: false });
+
+    let formCopy = this.state.form;
+    formCopy[name].value = value; // updates the value inside the formCopy
+
+    let rules = formCopy[name].rules
+    let valid = ValidationRules(value, rules, formCopy);
+
+    formCopy[name].valid = valid;
+
+    this.setState({ form: formCopy })
   }
 
-  onChangeEmail (value) {
-    this.setState({ email: value });
-  }
-
-  onChangePassword (value) {
-    this.setState({ password: value });
-  }
+  formHasErrors = () => (
+    this.state.hasErrors ?
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorLabel}>Invalid input format, please check your info.</Text>
+      </View>
+    :null
+  )
 
   // 192.168.1.3, 192.168.0.102, 192.168.5.182
-  async onButtonTouch () {
-    await axios.post('http://192.168.1.3:8080/sessions',
-      { email: this.state.email, password: this.state.password },
+  async submitLogin() {
+    let isFormValid = true;
+    let formToSubmit = {};
+    const formCopy = this.state.form;
+
+    for (let key in formCopy) {
+      isFormValid = isFormValid && formCopy[key].valid;
+      formToSubmit[key] = formCopy[key].value;
+    }
+
+    if (isFormValid) {
+      await axios.post('http://192.168.1.3:8080/sessions', formToSubmit,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -40,49 +81,51 @@ export default class LoginForm extends Component {
         let responseData = response.data;
         let responseArray = responseData.split('.');
         await AsyncStorage.multiSet([['@token:key', responseArray[0]], ['@userID:key', responseArray[1]]]).catch(error => console.log(error));
+        if (response.status === 200) {
+          LoadTabs(0);
+        }
       })
-      .catch(error => console.log(error.response));
-
-    if (this.state.statusCode === 200) {
-      LoadTabs(0);
+      .catch(error => {
+        console.log(error.response);
+        if (error.response.data === 'E-mail and password does not match.') {
+          this.setState({ loginWarning: 'E-mail address and password do not match.' });
+        } else {
+          this.setState({ loginWarning: 'Something went wrong.' });
+        }
+      });
     } else {
-      this.setState({ loginWarning: 'Unsuccessful login attempt' });
+      this.setState({ hasErrors: true })
     }
   }
 
-  render () {
+  render() {
     return (
-      <View style={styles.loginFormWrapper}>
-        <View style={{ marginBottom: 15 }}>
-          <Text style={styles.loginWarning}>{this.state.loginWarning}</Text>
-          <Text style={styles.labels}>
-            E-mail address:
-          </Text>
-          <TextInput
-            style={styles.input}
-            multiline={false}
-            maxLength={50}
-            keyboardType='email-address'
-            value={this.state.email}
-            onChangeText={this.onChangeEmail.bind(this)}
-          />
-        </View>
-        <View style={{ marginBottom: 15 }}>
-          <Text style={styles.labels}>
-            Password:
-          </Text>
-          <TextInput
-            style={styles.input}
-            multiline={false}
-            maxLength={50}
-            secureTextEntry={true}
-            value={this.state.password}
-            onChangeText={this.onChangePassword.bind(this)}
-          />
+      <View style={styles.formInputContainer}>
+        <Input
+          placeholder='Enter your e-mail address.'
+          type={this.state.form.email.type}
+          value={this.state.form.email.value}
+          onChangeText={value => this.updateInput('email', value)}
+          autoCapitalize={'none'}
+          keyboardType={'email-address'}
+        />
+
+        <Input
+          placeholder='Enter your password.'
+          type={this.state.form.password.type}
+          value={this.state.form.password.value}
+          onChangeText={value => this.updateInput('password', value)}
+          secureTextEntry
+        />
+
+        {this.formHasErrors()}
+        <Text style={styles.errorLabel}>{this.state.loginWarning}</Text>
+
+        <View style={{ marginTop: 20, marginHorizontal: 20 }}>
           <Button
-            title='Log in'
+            title='Log In'
             color='#009999'
-            onPress={this.onButtonTouch.bind(this)}
+            onPress={this.submitLogin.bind(this)}
           />
         </View>
       </View>
@@ -91,23 +134,17 @@ export default class LoginForm extends Component {
 }
 
 const styles = StyleSheet.create({
-  loginFormWrapper: {
+  formInputContainer: {
+    minHeight: 400,
     marginHorizontal: 20
   },
-  labels: {
-    fontSize: 25,
-    fontFamily: 'RobotoCondensed-Regular',
-    textAlign: 'center'
+  errorContainer: {
+    marginBottom: 10,
+    marginTop: 10
   },
-  loginWarning: {
-    fontSize: 15,
-    fontFamily: 'RobotoCondensed-Regular',
-    textAlign: 'center',
-    color: '#cc0000'
-  },
-  input: {
-    width: 350,
-    fontSize: 20,
-    textAlign: 'center'
+  errorLabel: {
+    color: 'red',
+    fontFamily: 'Roboto-Black',
+    fontSize: 15
   }
 });

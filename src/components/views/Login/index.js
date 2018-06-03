@@ -5,7 +5,7 @@ import { Navigation } from 'react-native-navigation';
 import LoginForm from './LoginForm';
 
 export default class Login extends Component {
-  
+
   openRegistrationPage = () => {
     Navigation.startSingleScreenApp({
       screen: {
@@ -17,28 +17,32 @@ export default class Login extends Component {
       }
     });
   }
-  
-  render () {
+
+  render() {
     return (
       <ScrollView style={{ backgroundColor: '#ffffff' }}>
         <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Welcome to Our Pub Application!
+          <View style={{marginTop: 50}}>
+            <Text style={styles.welcomeText}>
+              Welcome to Our Pub Application!
           </Text>
-          <Text style={styles.textStyle}>
-            If you don't have an account, click here:
+            <Text style={styles.toRegistration}>
+              If you don't have an account, click here:
           </Text>
-          <Button 
-          title='Sign Up'
-          color='#009999'
-          onPress={this.openRegistrationPage.bind(this)}
-          />
-          <Text style={styles.textStyle}>
-            or Log in:
+          <View style={styles.button}>
+          <Button
+              title='Sign Up'
+              color='#009999'
+              onPress={this.openRegistrationPage.bind(this)}
+            />
+          </View>
+            <Text style={styles.toLogIn}>
+              or Log in:
           </Text>
-        </View>
-        <View style={styles.login}>
-          <LoginForm />
+          </View>
+          <View>
+            <LoginForm />
+          </View>
         </View>
       </ScrollView>
     );
@@ -47,31 +51,30 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 70,
+    width: '100%',
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%'
+    justifyContent: 'center'
   },
-  login: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%'
-  },
-  welcome: {
+  welcomeText: {
     fontSize: 40,
     fontFamily: 'RobotoCondensed-Regular',
     textAlign: 'center',
-    marginBottom: 15
+    margin: 20
   },
-  textStyle: {
-    fontSize: 20,
+  toRegistration: {
+    fontSize: 30,
     fontFamily: 'RobotoCondensed-Regular',
     textAlign: 'center',
-    marginBottom: 25,
-    marginTop: 25
+    margin: 20
+  },
+  button: {
+    marginHorizontal: 30
+  },
+  toLogIn: {
+    fontSize: 25,
+    fontFamily: 'RobotoCondensed-Regular',
+    textAlign: 'center',
+    padding: 10
   }
 });
