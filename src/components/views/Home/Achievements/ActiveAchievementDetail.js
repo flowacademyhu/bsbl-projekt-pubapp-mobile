@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const CompletedAchievementDetail = ({ completedAchievement }) => {
+const ActiveAchievementDetail = ({ activeAchievement }) => {
   const {
     id,
     created,
@@ -10,7 +10,7 @@ const CompletedAchievementDetail = ({ completedAchievement }) => {
     description,
     xpValue,
     expiration
-  } = completedAchievement;
+  } = activeAchievement;
 
   return (
     <View>
@@ -23,4 +23,4 @@ const CompletedAchievementDetail = ({ completedAchievement }) => {
 };
 
 const styles = {};
-export default CompletedAchievementDetail;
+export default ActiveAchievementDetail;

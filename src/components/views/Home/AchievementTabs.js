@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 
+import CompletedAchievementDetail from './Achievements/CompletedAchievementDetail';
+
 export default class AchievementTabs extends Component {
   state = {
-    activeTab: 0,
+    activeTab: 0
   }
 
   render({ children } = this.props) {
@@ -16,10 +18,10 @@ export default class AchievementTabs extends Component {
                 styles.tabContainer,
                 index === this.state.activeTab ? styles.tabContainerActive : []
               ]}
-              onPress={() => this.setState({ activeTab: index }) }
+              onPress={() => this.setState({ activeTab: index })}
               key={index}
             >
-             <Text style={styles.tabText}>
+              <Text style={styles.tabText}>
                 {title}
               </Text>
             </TouchableOpacity>

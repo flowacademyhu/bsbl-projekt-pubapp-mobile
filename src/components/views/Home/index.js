@@ -1,60 +1,82 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, AsyncStorage } from 'react-native';
 import axios from 'axios';
 
-import AchievementDetail from './Achievements/AchievementDetail';
 import AchievementTabs from './AchievementTabs';
+import CompletedAchievementDetail from './Achievements/CompletedAchievementDetail';
+import ActiveAchievementDetail from './Achievements/ActiveAchievementDetail';
 
 export default class Home extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.navigatorEvent);
+    this.state = {
+      completedAchievements: [],
+      activeAchievements: []
+    }
   }
 
-  state = {
-    achievements: []
+  async componentWillMount() {
+    const userID = await AsyncStorage.getItem('@userID:key');
+    const token = await AsyncStorage.getItem('@token:key');
+
+    let config = {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    };
+    
+    await axios.get('http://192.168.1.3:8080/users/' + userID + '/user_achievements', { headers: config })
+      .then(response => this.setState({ completedAchievements: response.data } ))
+      .catch(error => console.log(error.response));
+
+      /*
+      await axios.get('url', { headers: config })
+      .then(response => this.setState({ activeAchievements: response.data } ))
+      .catch(error => console.log(error.response));
+      */
   }
-  /*
-  componentWillMount() {
-    axios.get('apiURL')
-      .then(response => this.setState({ achievements: response.data }))
-      .catch(error => {
-        console.log(error)
+
+  renderCompletedAchievements() {
+    return this.state.completedAchievements.map(completedAchievement =>
+      <CompletedAchievementDetail key={completedAchievement.id} completedAchievement={completedAchievement} />);
+  }
+
+  renderActiveAchievements() {
+    return this.state.activeAchievements.map(activeAchievement =>
+      <ActiveAchievementDetail key={activeAchievement.id} activeAchievement={activeAchievement} />);
+  }
+
+  navigatorEvent = (event) => {
+    if (event.type === 'NavBarButtonPress' && event.id === 'LogoutButton') {
+      this.props.navigator.toggleDrawer({
+        side: 'right',
+        animated: true
       });
-  }
-  */
-
-  renderAchievements() {
-    return this.state.achievements.map(achievement =>
-      <AchievementDetail key={achievement.id} achievement={achievement} />);
+    }
   }
 
-navigatorEvent = (event) => {
-  if (event.type === 'NavBarButtonPress' && event.id === 'LogoutButton') {
-    this.props.navigator.toggleDrawer({
-      side: 'right',
-      animated: true
-    });
-  }
-}
-
-  render () {
+  render() {
     return (
       <ScrollView>
         <View style={styles.container}>
           <AchievementTabs>
             <View title='ACTIVE ACHIEVEMENTS' style={styles.content}>
               <Text style={styles.header}>
-              ACTIVE ACHIEVEMENTS
+                ACTIVE ACHIEVEMENTS
               </Text>
               <ScrollView>
-                {this.renderAchievements()}
+                {this.renderActiveAchievements()}
               </ScrollView>
             </View>
             <View title='COMPLETED ACHIEVEMENTS' style={styles.content}>
               <Text style={styles.header}>
-              COMPLETED ACHIEVEMENTS
+                COMPLETED ACHIEVEMENTS
               </Text>
+              <ScrollView>
+                {this.renderCompletedAchievements()}
+              </ScrollView>
             </View>
           </AchievementTabs>
         </View>
