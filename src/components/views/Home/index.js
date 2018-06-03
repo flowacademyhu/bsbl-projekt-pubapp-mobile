@@ -31,11 +31,11 @@ export default class Home extends Component {
       .then(response => this.setState({ completedAchievements: response.data } ))
       .catch(error => console.log(error.response));
 
-      /*
-      await axios.get('url', { headers: config })
+      
+      await axios.get('http://192.168.1.3:8080/achievements/active', { headers: config })
       .then(response => this.setState({ activeAchievements: response.data } ))
       .catch(error => console.log(error.response));
-      */
+    
   }
 
   renderCompletedAchievements() {
