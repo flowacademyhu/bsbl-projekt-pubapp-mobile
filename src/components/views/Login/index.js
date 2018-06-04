@@ -22,7 +22,7 @@ export default class Login extends Component {
     return (
       <ScrollView style={{ backgroundColor: '#ffffff' }}>
         <View style={styles.container}>
-          <View style={{marginTop: 50}}>
+          <View style={{marginTop: 20}}>
             <Text style={styles.welcomeText}>
               Welcome to Our Pub Application!
           </Text>

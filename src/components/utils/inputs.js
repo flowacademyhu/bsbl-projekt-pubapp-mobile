@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 5,
     marginTop: 5,
-    marginBottom: 25,
+    marginBottom: 15,
     fontFamily: 'RobotoCondensed-Regular',
     borderBottomWidth: 2,
     borderBottomColor: '#eaeaea'

@@ -14,6 +14,7 @@ export default class RegistrationForm extends Component {
     hasErrors: false,
     form: {
       firstName: {
+        title: 'First name',
         value: '',
         valid: false,
         type: 'textinput',
@@ -23,6 +24,7 @@ export default class RegistrationForm extends Component {
         }
       },
       lastName: {
+        title: 'Last name',
         value: '',
         valid: false,
         type: 'textinput',
@@ -32,6 +34,7 @@ export default class RegistrationForm extends Component {
         }
       },
       nickName: {
+        title: 'Nickname',
         value: '',
         valid: false,
         type: 'textinput',
@@ -41,6 +44,7 @@ export default class RegistrationForm extends Component {
         }
       },
       email: {
+        title: 'E-mail address',
         value: '',
         valid: false,
         type: 'textinput',
@@ -50,6 +54,7 @@ export default class RegistrationForm extends Component {
         }
       },
       password: {
+        title: 'Password',
         value: '',
         valid: false,
         type: 'textinput',
@@ -60,6 +65,7 @@ export default class RegistrationForm extends Component {
         }
       },
       confirmPassword: {
+        title: 'Confirm password',
         value: '',
         valid: false,
         type: 'textinput',
@@ -127,13 +133,42 @@ export default class RegistrationForm extends Component {
     });
   }
 
-  formHasErrors = () => (
+  formHasErrors = (fieldname) => (
     this.state.hasErrors ?
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorLabel}>Invalid field(s). Please check your info.</Text>
-      </View>
+      !this.state.form[fieldname].valid ?
+        this.switchError(fieldname)
+        : null
       : null
   )
+
+  switchError = (fieldType) => {
+    switch (fieldType) {
+      case 'firstName':
+        return <Text style={styles.errorLabel}>{this.state.form[fieldType].title} is invalid. Valid format: Eszter, Anna Csenge.</Text>
+        break;
+      case 'lastName':
+        return <Text style={styles.errorLabel}>{this.state.form[fieldType].title} is invalid. Valid format: Szabó, Tóth-Nagy, Kovács Kiss.</Text>
+        break;
+      case 'nickName':
+        return <Text style={styles.errorLabel}>{this.state.form[fieldType].title} is invalid. Only use upper- and lower-case letters, numbers and special characters. NO spaces allowed.</Text>
+        break;
+      case 'email':
+        return <Text style={styles.errorLabel}>{this.state.form[fieldType].title} is invalid. Valid format: something@provider.sg or something@provider.stg.</Text>
+        break;
+      case 'password':
+        return <Text style={styles.errorLabel}>{this.state.form[fieldType].title} is invalid. Must be at least 5 characters and must contain at least 1 upper case letter, 1 lower case letter, 1 number and 1 special character.</Text>
+        break;
+      case 'confirmPassword':
+        return <Text style={styles.errorLabel}>{this.state.form[fieldType].title} and password do not match.</Text>
+        break;
+      case 'gender':
+        return <Text style={styles.errorLabel}>You must choose a gender.</Text>
+        break;
+      case 'dob':
+        return <Text style={styles.errorLabel}>You must set your date of birth.</Text>
+        break;
+    }
+  }
 
   // 192.168.1.3, 192.168.0.102, 192.168.5.182
   async onSubmitForm() {
@@ -184,6 +219,7 @@ export default class RegistrationForm extends Component {
           autoCapitalize={'words'}
           maxLength={15}
         />
+        {this.formHasErrors('firstName')}
 
         <Text style={styles.labelText}>Last Name:</Text>
         <Input
@@ -194,6 +230,7 @@ export default class RegistrationForm extends Component {
           autoCapitalize={'words'}
           maxLength={15}
         />
+        {this.formHasErrors('lastName')}
 
         <Text style={styles.labelText}>Nickname:</Text>
         <Input
@@ -202,8 +239,9 @@ export default class RegistrationForm extends Component {
           value={this.state.form.nickName.value}
           onChangeText={value => this.updateInput('nickName', value)}
           autoCapitalize={'words'}
-          maxLength={15}
+          maxLength={30}
         />
+        {this.formHasErrors('nickName')}
 
         <Text style={styles.labelText}>E-mail Address:</Text>
         <Input
@@ -214,6 +252,7 @@ export default class RegistrationForm extends Component {
           autoCapitalize={'none'}
           keyboardType={'email-address'}
         />
+        {this.formHasErrors('email')}
 
         <Text style={styles.labelText}>Password:</Text>
         <Input
@@ -223,6 +262,7 @@ export default class RegistrationForm extends Component {
           onChangeText={value => this.updateInput('password', value)}
           secureTextEntry
         />
+        {this.formHasErrors('password')}
 
         <Text style={styles.labelText}>Confirm Password:</Text>
         <Input
@@ -232,6 +272,7 @@ export default class RegistrationForm extends Component {
           onChangeText={value => this.updateInput('confirmPassword', value)}
           secureTextEntry
         />
+        {this.formHasErrors('confirmPassword')}
 
         <Text style={styles.labelText}>Gender:</Text>
         <RadioGroup
@@ -245,6 +286,7 @@ export default class RegistrationForm extends Component {
             <Text>Male</Text>
           </RadioButton>
         </RadioGroup>
+        {this.formHasErrors('gender')}
 
         <Text style={styles.labelText}>Date of Birth:</Text>
         <DatePicker
@@ -275,7 +317,8 @@ export default class RegistrationForm extends Component {
             this.setState({ form: formCopy });
           }}
         />
-        {this.formHasErrors()}
+        {this.formHasErrors('dob')}
+
         <View>
           <Button
             title='Submit'
@@ -307,7 +350,8 @@ const styles = StyleSheet.create({
   errorLabel: {
     color: 'red',
     fontFamily: 'Roboto-Black',
-    fontSize: 15
+    fontSize: 15,
+    marginBottom: 20
   },
   radios: {
     flex: 1,

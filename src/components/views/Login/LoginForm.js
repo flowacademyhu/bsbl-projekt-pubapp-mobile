@@ -13,6 +13,7 @@ export default class LoginForm extends Component {
     hasErrors: false,
     form: {
       email: {
+        title: 'E-mail address',
         value: '',
         valid: false,
         type: 'textinput',
@@ -22,6 +23,7 @@ export default class LoginForm extends Component {
         }
       },
       password: {
+        title: 'Password',
         value: '',
         valid: false,
         type: 'textinput',
@@ -48,13 +50,24 @@ export default class LoginForm extends Component {
     this.setState({ form: formCopy })
   }
 
-  formHasErrors = () => (
+  formHasErrors = (fieldname) => (
     this.state.hasErrors ?
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorLabel}>Invalid e-mail or password. Please check your info.</Text>
-      </View>
-    :null
+      !this.state.form[fieldname].valid ?
+        this.switchError(fieldname)
+        : null
+      : null
   )
+
+  switchError = (fieldType) => {
+    switch (fieldType) {
+      case 'email':
+        return <Text style={styles.errorLabel}>{this.state.form[fieldType].title} is invalid. Valid format: something@provider.sg or something@provider.stg.</Text>
+        break;
+      case 'password':
+        return <Text style={styles.errorLabel}>{this.state.form[fieldType].title} is invalid. Must be at least 5 characters and must contain at least 1 upper case letter, 1 lower case letter, 1 number and 1 special character.</Text>
+        break;
+    }
+  }
 
   // 192.168.1.3, 192.168.0.102, 192.168.5.182
   async submitLogin() {
@@ -69,30 +82,30 @@ export default class LoginForm extends Component {
 
     if (isFormValid) {
       await axios.post('http://192.168.1.3:8080/sessions', formToSubmit,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        }
-      })
-      .then(async (response) => {
-        this.setState({ statusCode: response.status });
-        let responseData = response.data;
-        let responseArray = responseData.split('.');
-        await AsyncStorage.multiSet([['@token:key', responseArray[0]], ['@userID:key', responseArray[1]]]).catch(error => console.log(error));
-        if (response.status === 200) {
-          LoadTabs(0);
-        }
-      })
-      .catch(error => {
-        console.log(error.response);
-        if (error.response.data === 'E-mail and password do not match.') {
-          this.setState({ loginWarning: 'E-mail address and password do not match.' });
-        } else {
-          this.setState({ loginWarning: 'Something went wrong. (Please check if you correctly entered your address.)' });
-        }
-      });
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+        .then(async (response) => {
+          this.setState({ statusCode: response.status });
+          let responseData = response.data;
+          let responseArray = responseData.split('.');
+          await AsyncStorage.multiSet([['@token:key', responseArray[0]], ['@userID:key', responseArray[1]]]).catch(error => console.log(error));
+          if (response.status === 200) {
+            LoadTabs(0);
+          }
+        })
+        .catch(error => {
+          console.log(error.response);
+          if (error.response.data === 'E-mail and password do not match.') {
+            this.setState({ loginWarning: 'E-mail address and password do not match.' });
+          } else {
+            this.setState({ loginWarning: 'Something went wrong. (Please check if you correctly entered your address.)' });
+          }
+        });
     } else {
       this.setState({ hasErrors: true })
     }
@@ -109,6 +122,7 @@ export default class LoginForm extends Component {
           autoCapitalize={'none'}
           keyboardType={'email-address'}
         />
+        {this.formHasErrors('email')}
 
         <Input
           placeholder='Your Password'
@@ -117,9 +131,9 @@ export default class LoginForm extends Component {
           onChangeText={value => this.updateInput('password', value)}
           secureTextEntry
         />
-        
+        {this.formHasErrors('password')}
+
         <Text style={styles.errorLabel}>{this.state.loginWarning}</Text>
-        {this.formHasErrors()}
 
         <View style={{ marginTop: 20, marginHorizontal: 20 }}>
           <Button
