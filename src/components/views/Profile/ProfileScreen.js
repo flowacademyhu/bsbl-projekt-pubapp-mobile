@@ -39,7 +39,8 @@ export default class ProfileScreen extends Component {
           lastName: response.data.lastName,
           nickname: response.data.nickName,
           email: response.data.email,
-          dob: response.data.dob
+          dob: response.data.dob,
+          xp: response.data.xp
         });
       })
       .catch(error => console.log(error.response));

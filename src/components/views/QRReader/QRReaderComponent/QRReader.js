@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
   Linking
 } from 'react-native';
 
@@ -11,6 +10,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 
 export default class QRReader extends Component {
   onSuccess (e) {
+    console.log(e.data);
     /*
     Linking
       .openURL(e.data)
@@ -26,9 +26,9 @@ export default class QRReader extends Component {
         topContent={
           <Text style={styles.centerText}>Read the QR Code from the tablet.</Text>
         }
-        fadeIn={true}
-        reactivate={true}
-        showMarker={true}
+        fadeIn
+        reactivat
+        showMarker
 
       /*
       bottomContent={

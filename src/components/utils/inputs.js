@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontFamily: 'RobotoCondensed-Regular',
     borderBottomWidth: 2,
-    borderBottomColor: '#eaeaea'
+    borderBottomColor: '#009999',
+    color: '#009999'
   }
 });
 

@@ -210,6 +210,7 @@ export default class RegistrationForm extends Component {
   render() {
     return (
       <View style={styles.wrapper}>
+        <Text style={styles.title}>REGISTRATION</Text>
         <Text style={styles.labelText}>First Name:</Text>
         <Input
           placeholder='Your First Name'
@@ -280,10 +281,16 @@ export default class RegistrationForm extends Component {
           style={styles.radios}
           onSelect={(index, value) => this.onSelect(index, value)} >
           <RadioButton value='female'>
-            <Text>Female</Text>
+            <Text style={{
+              color: '#009999',
+              fontFamily: 'RobotoCondensed-Bold'
+            }}>Female</Text>
           </RadioButton>
           <RadioButton value='male'>
-            <Text>Male</Text>
+            <Text style={{
+              color: '#009999',
+              fontFamily: 'RobotoCondensed-Bold'
+            }}>Male</Text>
           </RadioButton>
         </RadioGroup>
         {this.formHasErrors('gender')}
@@ -343,6 +350,13 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center'
   },
+  title: {
+    textAlign: 'center',
+    fontFamily: 'RobotoCondensed-Bold',
+    fontSize: 50,
+    margin: 15,
+    color: '#009999'
+  },
   errorContainer: {
     marginBottom: 10,
     marginTop: 5
@@ -364,12 +378,13 @@ const styles = StyleSheet.create({
     width: '75%',
     marginTop: 10,
     marginHorizontal: 40,
-    marginBottom: 30
+    marginBottom: 30,
   },
   labelText: {
-    fontSize: 20,
-    fontFamily: 'RobotoCondensed-Regular',
+    fontSize: 25,
+    fontFamily: 'RobotoCondensed-Bold',
     textAlign: 'left',
-    marginBottom: 5
+    marginBottom: 5,
+    color: '#009999'
   }
 });

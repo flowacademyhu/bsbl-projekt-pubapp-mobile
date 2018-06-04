@@ -38,6 +38,7 @@ export default class AchievementTabs extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFFFFF'
   },
   tabsContainer: {
     flexDirection: 'row',
@@ -59,7 +60,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
-    flex: 1
+    flex: 1,
+    width: '100%'
   }
 });
 

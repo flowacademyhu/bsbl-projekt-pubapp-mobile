@@ -59,14 +59,13 @@ export default class Home extends Component {
 
   render() {
     return (
-      <ScrollView>
         <View style={styles.container}>
           <AchievementTabs>
             <View title='ACTIVE ACHIEVEMENTS' style={styles.content}>
               <Text style={styles.header}>
                 ACTIVE ACHIEVEMENTS
               </Text>
-              <ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false}>
                 {this.renderActiveAchievements()}
               </ScrollView>
             </View>
@@ -74,22 +73,19 @@ export default class Home extends Component {
               <Text style={styles.header}>
                 COMPLETED ACHIEVEMENTS
               </Text>
-              <ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false}>
                 {this.renderCompletedAchievements()}
               </ScrollView>
             </View>
           </AchievementTabs>
         </View>
-      </ScrollView>
-
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF'
+    flex: 1
   },
   content: {
     flex: 1,
@@ -100,14 +96,7 @@ const styles = StyleSheet.create({
   header: {
     margin: 10,
     color: '#009999',
-    fontFamily: 'RobotoCondensed-Light',
+    fontFamily: 'RobotoCondensed-Bold',
     fontSize: 26
-  },
-  text: {
-    marginHorizontal: 20,
-    color: 'rgba(255, 255, 255, 0.75)',
-    textAlign: 'center',
-    fontFamily: 'RobotoCondensed-Light',
-    fontSize: 18
   }
 });
