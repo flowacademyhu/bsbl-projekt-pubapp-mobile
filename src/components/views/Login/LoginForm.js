@@ -68,7 +68,7 @@ export default class LoginForm extends Component {
     }
 
     if (isFormValid) {
-      await axios.post('http://192.168.5.182:8080/sessions', formToSubmit,
+      await axios.post('http://192.168.1.3:8080/sessions', formToSubmit,
       {
         headers: {
           'Content-Type': 'application/json',

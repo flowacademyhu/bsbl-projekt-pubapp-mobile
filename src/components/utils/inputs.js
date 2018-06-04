@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import React from 'react';
+import { StyleSheet, TextInput } from 'react-native';
 
 const input = (props) => {
   let template = null;
@@ -9,7 +9,7 @@ const input = (props) => {
         <TextInput
           underlineColorAndroid='transparent'
           {...props}
-          style={[styles.input, props.overrideStyle]}
+          style={styles.input}
         />;
       break;
     default:
@@ -21,11 +21,13 @@ const input = (props) => {
 const styles = StyleSheet.create({
   input: {
     width: '100%',
-    borderBottomWidth: 2,
-    borderBottomColor: '#eaeaea',
-    fontSize: 18,
+    fontSize: 25,
     padding: 5,
-    marginTop: 10
+    marginTop: 5,
+    marginBottom: 25,
+    fontFamily: 'RobotoCondensed-Regular',
+    borderBottomWidth: 2,
+    borderBottomColor: '#eaeaea'
   }
 });
 

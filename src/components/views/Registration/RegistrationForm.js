@@ -10,7 +10,6 @@ import ValidationRules from '../../utils/validationRules';
 import axios from 'axios';
 
 export default class RegistrationForm extends Component {
-
   state = {
     hasErrors: false,
     form: {
@@ -113,7 +112,7 @@ export default class RegistrationForm extends Component {
       formCopy['gender'].value = false
       formCopy['gender'].valid = true;
     }
-    this.setState({form: formCopy});
+    this.setState({ form: formCopy });
   }
 
   openLoginPage = () => {
@@ -133,7 +132,7 @@ export default class RegistrationForm extends Component {
       <View style={styles.errorContainer}>
         <Text style={styles.errorLabel}>Invalid field(s). Please check your info.</Text>
       </View>
-    :null
+      : null
   )
 
   // 192.168.1.3, 192.168.0.102, 192.168.5.182
@@ -150,7 +149,7 @@ export default class RegistrationForm extends Component {
     console.log(formCopy);
 
     if (isFormValid) {
-      await axios.post('http://192.168.5.182:8080/users',
+      await axios.post('http://192.168.1.3:8080/users',
         formToSubmit,
         {
           headers: {
@@ -175,8 +174,8 @@ export default class RegistrationForm extends Component {
 
   render() {
     return (
-      <View>
-        <Text>First Name:</Text>
+      <View style={styles.wrapper}>
+        <Text style={styles.labelText}>First Name:</Text>
         <Input
           placeholder='Your First Name'
           type={this.state.form.firstName.type}
@@ -186,7 +185,7 @@ export default class RegistrationForm extends Component {
           maxLength={15}
         />
 
-        <Text>Last Name:</Text>
+        <Text style={styles.labelText}>Last Name:</Text>
         <Input
           placeholder='Your Last Name'
           type={this.state.form.lastName.type}
@@ -196,7 +195,7 @@ export default class RegistrationForm extends Component {
           maxLength={15}
         />
 
-        <Text>Nickname:</Text>
+        <Text style={styles.labelText}>Nickname:</Text>
         <Input
           placeholder='Choose a Nickname'
           type={this.state.form.nickName.type}
@@ -206,7 +205,7 @@ export default class RegistrationForm extends Component {
           maxLength={15}
         />
 
-        <Text>E-mail Address:</Text>
+        <Text style={styles.labelText}>E-mail Address:</Text>
         <Input
           placeholder='Your E-mail Address'
           type={this.state.form.email.type}
@@ -216,7 +215,7 @@ export default class RegistrationForm extends Component {
           keyboardType={'email-address'}
         />
 
-        <Text>Password:</Text>
+        <Text style={styles.labelText}>Password:</Text>
         <Input
           placeholder='Enter Password'
           type={this.state.form.password.type}
@@ -225,7 +224,7 @@ export default class RegistrationForm extends Component {
           secureTextEntry
         />
 
-        <Text>Confirm Password:</Text>
+        <Text style={styles.labelText}>Confirm Password:</Text>
         <Input
           placeholder='Re-enter Password'
           type={this.state.form.confirmPassword.type}
@@ -234,7 +233,7 @@ export default class RegistrationForm extends Component {
           secureTextEntry
         />
 
-        <Text>Gender:</Text>
+        <Text style={styles.labelText}>Gender:</Text>
         <RadioGroup
           color='#009999'
           style={styles.radios}
@@ -247,7 +246,7 @@ export default class RegistrationForm extends Component {
           </RadioButton>
         </RadioGroup>
 
-        <Text>Date of Birth:</Text>
+        <Text style={styles.labelText}>Date of Birth:</Text>
         <DatePicker
           style={styles.datepicker}
           mode='date'
@@ -296,9 +295,14 @@ export default class RegistrationForm extends Component {
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center'
+  },
   errorContainer: {
     marginBottom: 10,
-    marginTop: 10
+    marginTop: 5
   },
   errorLabel: {
     color: 'red',
@@ -310,12 +314,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginHorizontal: 25,
-    marginBottom: 5
+    marginBottom: 30
   },
   datepicker: {
     width: '75%',
     marginTop: 10,
     marginHorizontal: 40,
-    marginBottom: 10
+    marginBottom: 30
+  },
+  labelText: {
+    fontSize: 20,
+    fontFamily: 'RobotoCondensed-Regular',
+    textAlign: 'left',
+    marginBottom: 5
   }
 });

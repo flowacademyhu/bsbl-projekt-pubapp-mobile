@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: 'RobotoCondensed-Regular',
     textAlign: 'center',
-    padding: 10
+    padding: 10,
+    marginTop: 35
   }
 });
