@@ -31,7 +31,7 @@ export default class LoginForm extends Component {
         }
       }
     },
-    loginWarning: undefined
+    loginWarning: ''
   };
 
   updateInput = (name, value) => {
@@ -51,7 +51,7 @@ export default class LoginForm extends Component {
   formHasErrors = () => (
     this.state.hasErrors ?
       <View style={styles.errorContainer}>
-        <Text style={styles.errorLabel}>Invalid input format, please check your info.</Text>
+        <Text style={styles.errorLabel}>Invalid e-mail or password. Please check your info.</Text>
       </View>
     :null
   )
@@ -68,7 +68,7 @@ export default class LoginForm extends Component {
     }
 
     if (isFormValid) {
-      await axios.post('http://192.168.1.3:8080/sessions', formToSubmit,
+      await axios.post('http://192.168.5.182:8080/sessions', formToSubmit,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -87,10 +87,10 @@ export default class LoginForm extends Component {
       })
       .catch(error => {
         console.log(error.response);
-        if (error.response.data === 'E-mail and password does not match.') {
+        if (error.response.data === 'E-mail and password do not match.') {
           this.setState({ loginWarning: 'E-mail address and password do not match.' });
         } else {
-          this.setState({ loginWarning: 'Something went wrong.' });
+          this.setState({ loginWarning: 'Something went wrong. (Please check if you correctly entered your address.)' });
         }
       });
     } else {
@@ -102,7 +102,7 @@ export default class LoginForm extends Component {
     return (
       <View style={styles.formInputContainer}>
         <Input
-          placeholder='Enter your e-mail address.'
+          placeholder='Your E-mail Address'
           type={this.state.form.email.type}
           value={this.state.form.email.value}
           onChangeText={value => this.updateInput('email', value)}
@@ -111,15 +111,15 @@ export default class LoginForm extends Component {
         />
 
         <Input
-          placeholder='Enter your password.'
+          placeholder='Your Password'
           type={this.state.form.password.type}
           value={this.state.form.password.value}
           onChangeText={value => this.updateInput('password', value)}
           secureTextEntry
         />
-
-        {this.formHasErrors()}
+        
         <Text style={styles.errorLabel}>{this.state.loginWarning}</Text>
+        {this.formHasErrors()}
 
         <View style={{ marginTop: 20, marginHorizontal: 20 }}>
           <Button

@@ -12,8 +12,20 @@ const validation = (value, rules, form) => {
       case 'minLength':
         valid = valid && validateMinLength(value, rules[rule]);
         break;
+      case 'isPswFormatValid':
+        valid = valid && validatePswFormat(value);
+        break;
       case 'confirmPass':
-        valid = valid && validateConfirmPass(value, form[rules].confirmPass);
+        valid = valid && validateConfirmPass(value, form[rules.confirmPass].value);
+        break;
+      case 'isValidFirstName':
+        valid = valid && validateFirstName(value);
+        break;
+      case 'isValidLastName':
+        valid = valid && validateLastName(value);
+        break;
+      case 'isValidNickName':
+        valid = valid && validateNickName(value);
         break;
       default:
         valid = true;
@@ -41,11 +53,31 @@ const validateMinLength = (value, ruleValue) => {
   return false;
 };
 
+const validatePswFormat = (password) => {
+  const expression = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{5,20})/;
+  return expression.test(String(password));
+};
+
 const validateConfirmPass = (confirmPass, password) => {
   if (confirmPass === password) {
     return true;
   }
   return false;
+};
+
+const validateFirstName = (firstName) => {
+  const expression = /(^[A-ZÖÜÓŐÚÉÁŰÍ]{1}[a-zöüóőúéáűí]{2,})(\s?)([A-ZÖÜÓŐÚÉÁŰÍ]{1}[a-zöüóőúéáűí]{2,})?/;
+  return expression.test(String(firstName));
+};
+
+const validateLastName = (lastName) => {
+  const expression = /(^[A-ZÖÜÓŐÚÉÁŰÍ]{1}[a-zöüóőúéáűí]{2,})(-?\s?)([A-ZÖÜÓŐÚÉÁŰÍ]{1}[a-zöüóőúéáűí]{2,})?/;
+  return expression.test(String(lastName));
+};
+
+const validateNickName = (nickName) => {
+  const expression = /(^[A-ZÖÜÓŐÚÉÁŰÍa-zöüóőúéáűí\d]+)(([_-]?)([A-ZÖÜÓŐÚÉÁŰÍa-zöüóőúéáűí\d]+)){1,}/;
+  return expression.test(String(nickName));
 };
 
 export default validation;
