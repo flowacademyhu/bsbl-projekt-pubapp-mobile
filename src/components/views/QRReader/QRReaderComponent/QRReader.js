@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
-
-import {
-  StyleSheet,
-  Text,
-  Linking
-} from 'react-native';
+import { StyleSheet, Text, AsyncStorage } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import axios from 'axios';
 
 export default class QRReader extends Component {
-  onSuccess (e) {
+  async onSuccess(e) {
     console.log(e.data);
-    /*
-    Linking
-      .openURL(e.data)
-      .catch(err => console.error('An error occured', err));
-      */
-    alert('QR Code Scanned!');
+    let QRdata = { qrCodePath: e.data };
+
+    const userID = await AsyncStorage.getItem('@userID:key');
+    const token = await AsyncStorage.getItem('@token:key');
+
+    let config = {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    };
+
+    await axios.post('http://192.168.5.182:8080/users/' + userID, QRdata, { headers: config })
+      .then(response => console.log(response.data))
+      .catch(error => console.log(error.response));
+
+    alert('Your order has been registered!');
   }
 
   render () {

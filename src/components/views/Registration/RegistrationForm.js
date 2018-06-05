@@ -184,7 +184,7 @@ export default class RegistrationForm extends Component {
     console.log(formCopy);
 
     if (isFormValid) {
-      await axios.post('http://192.168.1.3:8080/users',
+      await axios.post('http://192.168.5.182:8080/users',
         formToSubmit,
         {
           headers: {

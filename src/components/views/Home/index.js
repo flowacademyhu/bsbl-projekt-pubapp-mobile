@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, AsyncStorage } from 'react-native';
 import axios from 'axios';
 
+import { ScreenVisibilityListener as RNNScreenVisibilityListener }  from 'react-native-navigation';
+
 import AchievementTabs from './AchievementTabs';
 import CompletedAchievementDetail from './Achievements/CompletedAchievementDetail';
 import ActiveAchievementDetail from './Achievements/ActiveAchievementDetail';
@@ -9,14 +11,15 @@ import ActiveAchievementDetail from './Achievements/ActiveAchievementDetail';
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.navigatorEvent);
+    this.props.navigator.addOnNavigatorEvent(this.navigatorEvent);
     this.state = {
       completedAchievements: [],
       activeAchievements: []
     }
+
   }
 
-  async componentWillMount() {
+  async getAchievementData () {
     const userID = await AsyncStorage.getItem('@userID:key');
     const token = await AsyncStorage.getItem('@token:key');
 
@@ -27,15 +30,18 @@ export default class Home extends Component {
       'Access-Control-Allow-Origin': '*'
     };
     
-    await axios.get('http://192.168.1.3:8080/users/' + userID + '/user_achievements', { headers: config })
+    await axios.get('http://192.168.5.182:8080/users/' + userID + '/user_achievements', { headers: config })
       .then(response => this.setState({ completedAchievements: response.data } ))
       .catch(error => console.log(error.response));
 
       
-      await axios.get('http://192.168.1.3:8080/achievements/active', { headers: config })
+      await axios.get('http://192.168.5.182:8080/achievements/active', { headers: config })
       .then(response => this.setState({ activeAchievements: response.data } ))
       .catch(error => console.log(error.response));
-    
+  }
+
+  async componentWillMount() {
+    this.getAchievementData();
   }
 
   renderCompletedAchievements() {
@@ -54,6 +60,10 @@ export default class Home extends Component {
         side: 'right',
         animated: true
       });
+    }
+
+    if (event.id === 'bottomTabSelected') {
+      this.getAchievementData();
     }
   }
 

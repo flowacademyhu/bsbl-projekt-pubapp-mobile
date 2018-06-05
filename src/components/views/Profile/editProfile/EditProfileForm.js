@@ -8,7 +8,7 @@ import LoadTabs from '../../Tabs';
 import axios from 'axios';
 
 export default class EditProfileForm extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.state = {
@@ -26,7 +26,7 @@ export default class EditProfileForm extends Component {
     };
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     const userID = await AsyncStorage.getItem('@userID:key');
     const token = await AsyncStorage.getItem('@token:key');
 
@@ -37,7 +37,7 @@ export default class EditProfileForm extends Component {
       'Access-Control-Allow-Origin': '*'
     };
     // 192.168.1.3, 192.168.0.102, 192.168.5.182
-    await axios.get('http://192.168.1.3:8080/users/' + userID, { headers: config })
+    await axios.get('http://192.168.5.182:8080/users/' + userID, { headers: config })
       .then(response => {
         this.setState({
           firstName: response.data.firstName,
@@ -51,7 +51,7 @@ export default class EditProfileForm extends Component {
       .catch(error => console.log(error.response));
   }
 
-  async onSubmit() {
+  async onSubmit () {
     const userID = await AsyncStorage.getItem('@userID:key');
     const token = await AsyncStorage.getItem('@token:key');
 
@@ -62,7 +62,7 @@ export default class EditProfileForm extends Component {
       'Access-Control-Allow-Origin': '*'
     };
     // 192.168.1.3, 192.168.0.102, 192.168.5.182
-    await axios.put('http://192.168.1.3:8080/users/' + userID,
+    await axios.put('http://192.168.5.182:8080/users/' + userID,
       {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
@@ -81,39 +81,39 @@ export default class EditProfileForm extends Component {
       .catch(error => console.log(error.response));
   }
 
-  onCancel() {
+  onCancel () {
     LoadTabs(1);
   }
 
-  onChangeFirstName(value) {
+  onChangeFirstName (value) {
     this.setState({ firstName: value });
   }
 
-  onChangeLastName(value) {
+  onChangeLastName (value) {
     this.setState({ lastName: value });
   }
 
-  onChangeNickname(value) {
+  onChangeNickname (value) {
     this.setState({ nickname: value });
   }
 
-  onChangeEmail(value) {
+  onChangeEmail (value) {
     this.setState({ email: value });
   }
 
-  onChangePassword(value) {
+  onChangePassword (value) {
     this.setState({ newPassword: value });
   }
 
-  onChangeConfirmPassword(value) {
+  onChangeConfirmPassword (value) {
     this.setState({ conNewPassword: value });
   }
 
-  onFillInOldPassword(value) {
+  onFillInOldPassword (value) {
     this.setState({ password: value });
   }
 
-  onSelect(index, value) {
+  onSelect (index, value) {
     if (value === 'male') {
       this.setState({ gender: 1 });
     } else {
@@ -121,7 +121,7 @@ export default class EditProfileForm extends Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <ScrollView>
         <View style={styles.wrapper}>

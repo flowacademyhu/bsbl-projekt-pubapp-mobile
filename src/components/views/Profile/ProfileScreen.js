@@ -7,19 +7,9 @@ import axios from 'axios';
 export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
-    /* These field values should be queried from the database */
-    this.state = {
-      firstName: undefined,
-      lastName: undefined,
-      nickname: undefined,
-      email: undefined,
-      password: undefined,
-      confirmPassword: undefined,
-      dob: undefined,
-      xp: undefined
-    };
   }
 
+  /*
   async componentWillMount() {
 
     const userID = await AsyncStorage.getItem('@userID:key');
@@ -32,7 +22,7 @@ export default class ProfileScreen extends Component {
       'Access-Control-Allow-Origin': '*'
     };
     // 192.168.1.3, 192.168.0.102, 192.168.5.182
-    await axios.get('http://192.168.1.3:8080/users/' + userID, { headers: config })
+    await axios.get('http://192.168.5.182:8080/users/' + userID, { headers: config })
       .then(response => {
         this.setState({
           firstName: response.data.firstName,
@@ -45,7 +35,7 @@ export default class ProfileScreen extends Component {
       })
       .catch(error => console.log(error.response));
   }
-
+*/
   openEditProfilePage = () => {
     Navigation.startSingleScreenApp({
       screen: {
@@ -63,11 +53,11 @@ export default class ProfileScreen extends Component {
       <ScrollView>
         <View style={styles.wrapper}>
           <View style={styles.textWrapper}>
-            <Text style={styles.names}>{this.state.firstName} {this.state.lastName}</Text>
-            <Text stlye={styles.nickname}>{this.state.nickname}</Text>
-            <Text>Current XP: {this.state.xp}</Text>
-            <Text>E-mail Address: {this.state.email}</Text>
-            <Text>Date of Birth: {this.state.dob}</Text>
+            <Text style={styles.names}>{this.props.firstName} {this.props.lastName}</Text>
+            <Text stlye={styles.nickname}>{this.props.nickName}</Text>
+            <Text>Current XP: {this.props.xp}</Text>
+            <Text>E-mail Address: {this.props.email}</Text>
+            <Text>Date of Birth: {this.props.dob}</Text>
           </View>
         </View>
         <View style={styles.buttons}>

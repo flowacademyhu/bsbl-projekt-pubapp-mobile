@@ -15,7 +15,7 @@ const CompletedAchievementDetail = ({ completedAchievement }) => {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.nameText}>{name} ({id})</Text>
-      <Text style={styles.descText}>Description {description}</Text>
+      <Text style={styles.descText}>Description: {description}</Text>
       <Text style={styles.xpText}>XP: {xpValue} XP</Text>
       <Text style={styles.expText}>Expiration: {expiration}</Text>
     </View>
