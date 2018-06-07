@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, AsyncStorage, Alert } from 'react-native';
+import { StyleSheet, Text, AsyncStorage, Alert, View } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import axios from '../../../utils/loggingOut';
@@ -75,18 +75,10 @@ export default class QRReader extends Component {
         onRead={this.onSuccess.bind(this)}
         ref={(node) => { this.scanner = node; }}
         topContent={
-          <Text style={styles.centerText}>Read the QR Code from the tablet.</Text>
+          <Text style={styles.centerText}>Read the QR Code from the tablet at the counter.</Text>
         }
         fadeIn
         showMarker
-
-      /*
-      bottomContent={
-        <TouchableOpacity style={styles.buttonTouchable}>
-          <Text style={styles.buttonText}>OK. Got it!</Text>
-        </TouchableOpacity>
-      }
-      */
       />
     );
   }
@@ -94,12 +86,11 @@ export default class QRReader extends Component {
 
 const styles = StyleSheet.create({
   centerText: {
-    flex: 1,
     fontSize: 20,
     padding: 10,
     fontFamily: 'RobotoCondensed-Regular',
     fontWeight: '500',
-    color: '#000'
+    color: '#ffffff'
   },
   buttonText: {
     fontSize: 21,

@@ -10,6 +10,7 @@ const input = (props) => {
           underlineColorAndroid='transparent'
           {...props}
           style={styles.input}
+          placeholderTextColor='#8bc1c1'
         />;
       break;
     default:

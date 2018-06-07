@@ -45,7 +45,7 @@ export default class Profile extends Component {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*'
     };
-    // 192.168.1.3, 192.168.0.102, 192.168.5.182
+    
     await axios.get('http://' + IP.ip + ':8080/users/' + userID, { headers: config })
       .then(response => {
         this.setState({

@@ -20,8 +20,18 @@ export default class QRHome extends Component {
 
   render () {
     return (
-      <QRReader />
+      <View style={styles.wrapper}>
+        <QRReader />
+      </View>
     );
   }
-
 }
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: '#009999'
+  }
+});
+

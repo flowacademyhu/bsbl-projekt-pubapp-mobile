@@ -27,7 +27,7 @@ const styles = {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    marginBottom: 35
+    marginBottom: 20
   },
   nameText: {
     fontFamily: 'RobotoCondensed-Bold',
@@ -50,4 +50,5 @@ const styles = {
     color: '#009999'
   }
 };
+
 export default ActiveAchievementDetail;

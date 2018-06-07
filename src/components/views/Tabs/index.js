@@ -71,7 +71,7 @@ const LoadTabs = (initialTab) => {
         initialTabIndex: initialTab,
         tabBarButtonColor: '#ffffff',
         tabBarBackgroundColor: '#009999',
-        tabBarSelectedButtonColor: '#33ffff'
+        tabBarSelectedButtonColor: '#bbf0f0'
       },
       drawer: {
         right: {

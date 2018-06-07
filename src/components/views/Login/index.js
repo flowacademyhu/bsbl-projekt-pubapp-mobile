@@ -60,12 +60,14 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontFamily: 'RobotoCondensed-Regular',
     textAlign: 'center',
+    color: '#009999',
     margin: 20
   },
   toRegistration: {
     fontSize: 30,
     fontFamily: 'RobotoCondensed-Regular',
     textAlign: 'center',
+    color: '#009999',
     margin: 20
   },
   button: {
@@ -76,6 +78,7 @@ const styles = StyleSheet.create({
     fontFamily: 'RobotoCondensed-Regular',
     textAlign: 'center',
     padding: 10,
+    color: '#009999',
     marginTop: 35
   }
 });
