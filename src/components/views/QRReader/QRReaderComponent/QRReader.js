@@ -4,6 +4,8 @@ import { StyleSheet, Text, AsyncStorage, Alert } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import axios from '../../../utils/loggingOut';
 
+const IP = require('../../../utils/ip');
+
 export default class QRReader extends Component {
   async onSuccess (e) {
     console.log(e.data);
@@ -19,7 +21,7 @@ export default class QRReader extends Component {
       'Access-Control-Allow-Origin': '*'
     };
 
-    await axios.post('http://192.168.5.182:8080/users/' + userID, QRdata, { headers: config })
+    await axios.post('http://' + IP.ip + ':8080/users/' + userID, QRdata, { headers: config })
       .then(response => {
         if (response.status === 200) {
           Alert.alert(

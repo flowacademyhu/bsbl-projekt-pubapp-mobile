@@ -9,6 +9,8 @@ import ValidationRules from '../../utils/validationRules';
 
 import axios from 'axios';
 
+const IP = require('../../utils/ip');
+
 export default class RegistrationForm extends Component {
   state = {
     hasErrors: false,
@@ -170,7 +172,6 @@ export default class RegistrationForm extends Component {
     }
   }
 
-  // 192.168.1.3, 192.168.0.102, 192.168.5.182
   async onSubmitForm() {
     let isFormValid = true;
     let formToSubmit = {};
@@ -184,7 +185,7 @@ export default class RegistrationForm extends Component {
     console.log(formCopy);
 
     if (isFormValid) {
-      await axios.post('http://192.168.5.182:8080/users',
+      await axios.post('http://' + IP.ip + ':8080/users',
         formToSubmit,
         {
           headers: {

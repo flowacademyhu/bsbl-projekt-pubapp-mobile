@@ -8,6 +8,8 @@ import ValidationRules from '../../utils/validationRules';
 
 import LoadTabs from '../Tabs';
 
+const IP = require('../../utils/ip')
+
 export default class LoginForm extends Component {
   state = {
     hasErrors: false,
@@ -68,8 +70,7 @@ export default class LoginForm extends Component {
         break;
     }
   }
-
-  // 192.168.1.3, 192.168.0.102, 192.168.5.182
+  
   async submitLogin() {
     let isFormValid = true;
     let formToSubmit = {};
@@ -81,7 +82,7 @@ export default class LoginForm extends Component {
     }
 
     if (isFormValid) {
-      await axios.post('http://192.168.5.182:8080/sessions', formToSubmit,
+      await axios.post('http://' + IP.ip + ':8080/sessions', formToSubmit,
         {
           headers: {
             'Content-Type': 'application/json',

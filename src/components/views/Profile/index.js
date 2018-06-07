@@ -6,6 +6,8 @@ import axios from '../../utils/loggingOut';
 
 import ProfileScreen from './ProfileScreen';
 
+const IP = require('../../utils/ip');
+
 export default class Profile extends Component {
 
   constructor (props) {
@@ -44,7 +46,7 @@ export default class Profile extends Component {
       'Access-Control-Allow-Origin': '*'
     };
     // 192.168.1.3, 192.168.0.102, 192.168.5.182
-    await axios.get('http://192.168.5.182:8080/users/' + userID, { headers: config })
+    await axios.get('http://' + IP.ip + ':8080/users/' + userID, { headers: config })
       .then(response => {
         this.setState({
           firstName: response.data.firstName,

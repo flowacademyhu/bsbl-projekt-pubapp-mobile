@@ -7,11 +7,14 @@ import LoadTabs from '../../Tabs';
 
 import axios from '../../../utils/loggingOut';
 
+const IP = require('../../../utils/ip');
+
 export default class EditProfileForm extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
+      hasErrors: false,
       firstName: undefined,
       lastName: undefined,
       nickname: undefined,
@@ -22,7 +25,9 @@ export default class EditProfileForm extends Component {
       dob: undefined,
 
       newPassword: '',
-      conNewPassword: undefined
+      conNewPassword: undefined,
+
+      warning: undefined
     };
   }
 
@@ -36,8 +41,8 @@ export default class EditProfileForm extends Component {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*'
     };
-    // 192.168.1.3, 192.168.0.102, 192.168.5.182
-    await axios.get('http://192.168.5.182:8080/users/' + userID, { headers: config })
+
+    await axios.get('http://' + IP.ip + ':8080/users/' + userID, { headers: config })
       .then(response => {
         this.setState({
           firstName: response.data.firstName,
@@ -61,24 +66,35 @@ export default class EditProfileForm extends Component {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*'
     };
-    // 192.168.1.3, 192.168.0.102, 192.168.5.182
-    await axios.put('http://192.168.5.182:8080/users/' + userID,
-      {
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        nickName: this.state.nickname,
-        oldPassword: this.state.password,
-        email: this.state.email,
-        dob: this.state.dob,
-        gender: this.state.gender,
-        newPassword: this.state.newPassword
-      },
-      { headers: config })
-      .then(response => {
-        console.log(response.data);
-        LoadTabs(1);
-      })
-      .catch(error => console.log(error.response));
+
+    if (this.state.password !== undefined) {
+      await axios.put('http://' + IP.ip + ':8080/users/' + userID,
+        {
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          nickName: this.state.nickname,
+          oldPassword: this.state.password,
+          email: this.state.email,
+          dob: this.state.dob,
+          gender: this.state.gender,
+          newPassword: this.state.newPassword
+        },
+        { headers: config })
+        .then(response => {
+          console.log(response.data);
+          LoadTabs(1);
+        })
+        .catch(error => {
+          console.log(error.response);
+          if (error.response.data === 'Incorrect password.') {
+            this.setState({ warning: 'Incorrect password.' });
+          } else {
+            this.setState({ warning: 'Something went wrong.' });
+          }
+        });
+    } else {
+      this.setState({ warning: 'You must enter your password to modify your data.' });
+    }
   }
 
   onCancel () {
@@ -217,6 +233,8 @@ export default class EditProfileForm extends Component {
             defaultValue={this.state.password}
             onChangeText={this.onFillInOldPassword.bind(this)} />
 
+          <Text style={styles.errorLabel}>{this.state.warning}</Text>
+
         </View>
         <View style={styles.buttons}>
           <Button
@@ -280,6 +298,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginHorizontal: 40,
     marginBottom: 10
+  },
+  errorLabel: {
+    color: 'red',
+    fontFamily: 'Roboto-Black',
+    fontSize: 15,
+    marginBottom: 20
   },
   buttons: {
     flex: 1,
