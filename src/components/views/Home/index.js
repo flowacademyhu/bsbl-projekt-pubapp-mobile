@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, AsyncStorage } from 'react-native';
-import axios from 'axios';
+import axios from '../../utils/loggingOut';
 
 import { ScreenVisibilityListener as RNNScreenVisibilityListener }  from 'react-native-navigation';
 

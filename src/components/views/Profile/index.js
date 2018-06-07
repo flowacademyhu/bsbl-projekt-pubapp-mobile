@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, AsyncStorage, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import axios from 'axios';
+import axios from '../../utils/loggingOut';
 
 import ProfileScreen from './ProfileScreen';
 
@@ -55,17 +55,7 @@ export default class Profile extends Component {
           xp: response.data.xp
         });
       })
-      .catch(error => {
-        if (error.response.data === 'Session validations.') {
-          Alert.alert(
-            'Session expired.',
-            'Session expired. Please log in again.',
-            [
-              {text: 'OK', onPress: () => console.log('Pressed')}
-            ]
-          )
-        }
-      });
+      .catch(error => console.log(error.response));
   }
 
 navigatorEvent = (event) => {
@@ -83,7 +73,7 @@ navigatorEvent = (event) => {
   
   render () {
     return (
-      <View>
+      <View style={styles.container}>
         <ProfileScreen
         firstName={this.state.firstName}
         lastName={this.state.lastName}
@@ -98,5 +88,10 @@ navigatorEvent = (event) => {
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    width: '100%',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
 });

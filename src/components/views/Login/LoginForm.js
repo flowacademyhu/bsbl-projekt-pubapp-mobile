@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, AsyncStorage } from 'react-native';
 
-import axios from 'axios';
+import axios from '../../utils/loggingOut';
 
 import Input from '../../utils/inputs';
 import ValidationRules from '../../utils/validationRules';

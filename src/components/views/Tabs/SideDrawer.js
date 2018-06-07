@@ -2,9 +2,20 @@ import React, { Component } from 'react';
 import { View, Button, AsyncStorage } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import axios from 'axios';
+import axios from '../../utils/loggingOut';
 
 export default class SideDrawer extends Component {
+  openLoginScreen = () => {
+    Navigation.startSingleScreenApp({
+      screen: {
+        screen: 'PubApp.Login',
+        title: 'Login',
+        navigatorStyle: {
+          navBarHidden: true
+        }
+      }
+    });
+  };
   
   async onLogout () {
     const userID = await AsyncStorage.getItem('@userID:key');
@@ -22,22 +33,10 @@ export default class SideDrawer extends Component {
         if (response.status === 200) {
           this.openLoginScreen();
         } else {
-          alert('Something went wrong.')
+          alert('Something went wrong.');
         }
       })
       .catch(error => console.log(error.response));
-  }
-
-  openLoginScreen = () => {
-    Navigation.startSingleScreenApp({
-      screen: {
-        screen: 'PubApp.Login',
-        title: 'Login',
-        navigatorStyle: {
-          navBarHidden: true
-        }
-      }
-    });
   }
 
   render () {

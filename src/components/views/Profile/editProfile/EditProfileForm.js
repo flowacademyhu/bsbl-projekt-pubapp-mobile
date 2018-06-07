@@ -5,7 +5,7 @@ import DatePicker from 'react-native-datepicker';
 
 import LoadTabs from '../../Tabs';
 
-import axios from 'axios';
+import axios from '../../../utils/loggingOut';
 
 export default class EditProfileForm extends Component {
   constructor (props) {
